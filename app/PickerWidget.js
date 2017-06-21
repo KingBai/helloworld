@@ -9,17 +9,24 @@ import {
     Text,
     TextInput,
     TouchableOpacity,
-    Dimensions
+    Dimensions,StyleSheet
 } from 'react-native';
 
 import Picker from 'react-native-picker';
-import area from './area.json';
 
-class PickerTest extends Component {
+var data = null;
+var picked = null;
+
+export default class PickerTest extends Component {
+
 
     constructor(props, context) {
-        super(props, context);
+        super(props, context);;
+        data = this.props.data;
+        picked = this.props.pick;
+        this.state = {selectdata:this.props.pick};
     }
+
 
     _createDateData() {
         let date = [];
@@ -58,6 +65,7 @@ class PickerTest extends Component {
     }
 
     _createAreaData() {
+        console.log(area);
         let data = [];
         let len = area.length;
         for(let i=0;i<len;i++){
@@ -97,7 +105,7 @@ class PickerTest extends Component {
     _showAreaPicker() {
         Picker.init({
             pickerData: this._createAreaData(),
-            selectedValue: ['河北', '唐山', '古冶区'],
+            selectedValue: picked,
             onPickerConfirm: pickedValue => {
                 console.log('area', pickedValue);
             },
@@ -184,6 +192,35 @@ class PickerTest extends Component {
         Picker.show();
     }
 
+    _showSingleData(data1,data2){
+
+        Picker.init({
+            pickerData: data,
+            selectedValue: picked,
+            pickerConfirmBtnText:'确定',
+            pickerCancelBtnText:'取消',
+            pickerTitleText:'请选择',
+
+            pickerConfirmBtnColor:[0,170,238,1],
+            pickerCancelBtnColor:[58,58,58,1],
+            pickerTitleColor:[141,141,141,1],
+            pickerBg:[255,255,255,0],
+            pickerToolBarBg:[255,255,255,1],
+            pickerToolBarFontSize:14,
+            pickerFontSize:16,
+            pickerFontColor:[0,170,238,1],
+            onPickerConfirm: data => {
+                this.setState({ selectdata:data});
+            },
+            onPickerCancel: data => {
+            },
+            onPickerSelect: data => {
+
+            }
+        });
+        Picker.show();
+    }
+
     _toggle() {
         Picker.toggle();
     }
@@ -195,37 +232,77 @@ class PickerTest extends Component {
     }
 
     render() {
+
+        let view = null;
+        switch (this.props.type){
+            case 'single':
+                view =
+                <TouchableOpacity style={this.props.style} onPress={this._showSingleData.bind(this)}>
+                    <Text style={styles.inputUnit}>{this.state.selectdata}></Text>
+                </TouchableOpacity>;
+                break;
+            case 'date':
+                view =
+                    <TouchableOpacity style={this.props.style} onPress={this._showDatePicker.bind(this)}>
+                        <Text style={styles.inputUnit}>{this.state.selectdata}</Text>
+                    </TouchableOpacity>;
+                break;
+            case 'time':
+                view =
+                    <TouchableOpacity style={this.props.style} onPress={this._showTimePicker.bind(this)}>
+                        <Text style={styles.inputUnit}>{this.state.selectdata}</Text>
+                    </TouchableOpacity>;
+                break;
+            case 'area':
+                view =
+                <TouchableOpacity style={this.props.style} onPress={this._showAreaPicker.bind(this)}>
+                    <Text style={styles.inputUnit}>{this.state.selectdata}></Text>
+                </TouchableOpacity>;
+                break;
+        }
+
+
         return (
-            <View style={{height: Dimensions.get('window').height}}>
-                <TouchableOpacity style={{marginTop: 40, marginLeft: 20}} onPress={this._showDatePicker.bind(this)}>
-                    <Text>DatePicker</Text>
-                </TouchableOpacity>
-                <TouchableOpacity style={{marginTop: 10, marginLeft: 20}} onPress={this._showTimePicker.bind(this)}>
-                    <Text>TimePicker</Text>
-                </TouchableOpacity>
-                <TouchableOpacity style={{marginTop: 10, marginLeft: 20}} onPress={this._showAreaPicker.bind(this)}>
-                    <Text>AreaPicker</Text>
-                </TouchableOpacity>
-                <TouchableOpacity style={{marginTop: 10, marginLeft: 20}} onPress={this._toggle.bind(this)}>
-                    <Text>toggle</Text>
-                </TouchableOpacity>
-                <TouchableOpacity style={{marginTop: 10, marginLeft: 20}} onPress={this._isPickerShow.bind(this)}>
-                    <Text>isPickerShow</Text>
-                </TouchableOpacity>
-                <TextInput
-                    placeholder="test picker with input"
-                    style={{
-                        height: 40,
-                        borderColor: 'gray',
-                        borderWidth: 1,
-                        marginLeft: 20,
-                        marginRight: 20,
-                        marginTop: 10,
-                        padding: 5
-                    }}
-                />
+            <View style={styles.main}>
+                <Text style={styles.inputTitle}>{this.props.titleName}</Text>
+                {view}
             </View>
         );
     }
 };
+
+const styles = StyleSheet.create({
+    main: {
+        flexDirection: 'row',
+        height: 45,
+        alignSelf: 'stretch',
+        backgroundColor: '#ffffff',
+        marginLeft:12,
+        marginRight:12,
+    },
+    inputTitle:{
+        flex:1,
+        color:'#3A3A3A',
+        fontSize:15,
+        backgroundColor:'#fff',
+        lineHeight:35,
+        textAlign:'left'
+    },
+    inputUnit:{
+        flex:1,
+        color:'#8d8d8d',
+        fontSize:14,
+        lineHeight:30,
+        textAlign:'right',
+        backgroundColor:'#fff',
+    },
+    inputStyle:{
+        flex:3,
+        color:'#3a3a3a',
+        padding: 0,
+        textAlign:'right',
+        marginRight:4,
+        backgroundColor:'#fff',
+    }
+});
 

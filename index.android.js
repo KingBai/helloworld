@@ -3,19 +3,11 @@
  * https://github.com/facebook/react-native
  * @flow
  */
-import React, { Component } from 'react';
+import React from 'react';
 import {AppRegistry} from 'react-native';
-import TabBar from './app/tabbar';
-import SimpleApp from './app/mynavigation';
-import Title from './app/index';
+import SimpleApp from './app/index';
+import JustApp from './app/testNavigation';
+import MyApp from './app/tabNavigation';
 
 
-class JdApp extends Component {
-    render() {
-        return (
-            <Title text="计算器"/>
-        )
-    }
-}
-
-AppRegistry.registerComponent('helloworld', () => JdApp);
+AppRegistry.registerComponent('helloworld', () => SimpleApp);

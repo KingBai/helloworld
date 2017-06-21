@@ -2,106 +2,51 @@
  * Created by lighting on 2017/6/15.
  */
 import React, { Component } from 'react';
-import {Text, View, Image, StyleSheet, TouchableWithoutFeedback,TouchableOpacity} from 'react-native';
-import {HelloInputText,HelloPicker} from './helloInputText';
-import Picker from 'react-native-picker';
-import area from './area.json';
-
-const tab1 = '测算数据';
-const tab2 = '测算结果';
+import {Text, View, Image, StyleSheet, TouchableWithoutFeedback,ScrollView,Button} from 'react-native';
+import { StackNavigator } from 'react-navigation';
+import TabNavigation from './tabNavigation';
+import ChatScreen from './guangzhou';
 
 
-export default class MainScreen extends Component {
+class MainScreen extends Component {
 
-    constructor(props){
-        super(props);
-        this.state={
-            showText:true
-        }
+    static navigationOptions = ({ navigation }) => (
+        {
+        title: `市场化交易测算（）`,
+        headerBackTitle:'',
+        headerTruncatedBackTitle:'',
+        headerRight:(
+            <View>
+                <Text style={{fontSize:18, color:'#ffffff',marginRight:12,fontWeight:'bold'}}>···</Text>
+            </View>
+        ),
+        headerStyle: {
+            backgroundColor: '#00aaee',
+
+        },
+        headerTitleStyle:{
+            color:'#ffffff',
+            fontSize:18
+        },
+        headerBackTitleStyle:{
+            tintColor:'#789'
+        },
+        gesturesEnabled:true
     }
-
-    _createAreaData() {
-        let data = [];
-        let len = area.length;
-        for(let i=0;i<len;i++){
-            let city = [];
-            for(let j=0,cityLen=area[i]['city'].length;j<cityLen;j++){
-                let _city = {};
-                _city[area[i]['city'][j]['name']] = area[i]['city'][j]['area'];
-                city.push(_city);
-            }
-
-            let _data = {};
-            _data[area[i]['name']] = city;
-            data.push(_data);
-        }
-        return data;
-    }
-
-
-
-    _showAreaPicker() {
-        Picker.init({
-            pickerData: this._createAreaData(),
-            selectedValue: ['河北', '唐山', '古冶区'],
-            onPickerConfirm: pickedValue => {
-                console.log('area', pickedValue);
-            },
-            onPickerCancel: pickedValue => {
-                console.log('area', pickedValue);
-            },
-            onPickerSelect: pickedValue => {
-                //Picker.select(['山东', '青岛', '黄岛区'])
-                console.log('area', pickedValue);
-            }
-        });
-        Picker.show();
-    }
+    );
 
 
     render() {
-        let view1 = this.state.showText?styles.tabActiveBorder:styles.tabNoBorder;
-        let view2 = this.state.showText?styles.tabNoBorder:styles.tabActiveBorder;
-        let inputView =
-        <View>
-            <HelloInputText titleName='合同类型' unit='厘/千瓦时'></HelloInputText>
-        </View>;
-        let resultView = <View><Text>b</Text></View>;
-        let data = [];
-        for(var i=0;i<100;i++){
-            data.push(i);
-        }
-
-
-
         return (
-            <View style={{flex:1,backgroundColor:'#f5f5f5'}}>
-                <View style={styles.title}>
-                    <View style={styles.textview}>
-                        <Text style={styles.textstyle}>{this.props.text || "标题头"}</Text>
-                    </View>
-                </View>
-                <View style={styles.tab}>
-                    <TouchableWithoutFeedback  onPress={()  =>this.setState({showText:true})}><View style={view1}><Text style={this.state.showText?styles.tabActive:styles.tabDefault}>{tab1}</Text></View></TouchableWithoutFeedback>
-                    <TouchableWithoutFeedback  onPress={()  =>this.setState({showText:false})}><View style={view2}><Text style={this.state.showText?styles.tabDefault:styles.tabActive}>{tab2}</Text></View></TouchableWithoutFeedback>
-                </View>
-                {this.state.showText?inputView:resultView}
-                <TouchableOpacity style={{marginTop: 10, marginLeft: 20}} onPress={this._showAreaPicker.bind(this)}>
-                    <Text>AreaPicker</Text>
-                </TouchableOpacity>
-            </View>
-        )
+            <TabNavigation />
+        );
     }
 }
 
+
+
+
 const styles = StyleSheet.create({
-    title: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        height: 45,
-        alignSelf: 'stretch',
-        backgroundColor: '#4a9df8',
-    },
     tab:{
         flexDirection: 'row',
         height:50,
@@ -137,5 +82,31 @@ const styles = StyleSheet.create({
     },
     tabNoBorder:{
         flex:1
+    },
+    box:{
+        backgroundColor:'#fff',
+        marginTop:10
+    },
+    linkText:{
+        fontSize:12,
+        textAlign:'center',
+        color:'#8d8d8d',
+        marginTop:30,
+        marginBottom:30,
+        borderBottomColor:'#8d8d8d',
+        borderStyle:'solid',
+        borderBottomWidth:1,
+        marginLeft:12,
+        marginRight:12,
+        alignSelf: 'center'
     }
+
+});
+
+
+// 注册导航
+export default  SimpleApp = StackNavigator({
+    Home:{
+            screen: MainScreen
+        }
 });
