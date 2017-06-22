@@ -25,7 +25,7 @@ class userResult extends React.Component {
     render() {
         return (
             <Button
-                onPress={() => console.log(this.props.navigation)}
+                onPress={() => this.props.navigation.navigate('Second')}
                 title="Go back home"
             />
         );

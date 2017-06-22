@@ -1,13 +1,12 @@
 import React, { Component } from 'react';
 import { Text,View,Image,StyleSheet,Keyboard,Button} from 'react-native';
 import TabNavigator from 'react-native-tab-navigator';
-import UserTab from './userTab';
-import CompanyTab from './companyTab';
-import {StackNavigator} from 'react-navigation';
+import {StackNavigator,TabBarBottom} from 'react-navigation';
 import CardStackStyleInterpolator from 'react-navigation/src/views/CardStackStyleInterpolator';
 import WebViewExample from './guangzhou';
 
 
+/*
 const HOME = 'user';
 const USER_NORMAL = require('./images/tabs/user.png');
 const USER_FOCUS = require('./images/tabs/user_HL.png');
@@ -83,10 +82,91 @@ const CO_FOCUS = require('./images/tabs/company_HL.png');
         );
     }
 }
+*/
+
+
+class userPage extends Component {
+
+    static navigationOptions ={
+            tabBarLabel:'电力用户',
+            tabBarIcon:({focused,tintColor})=>(
+                    <Image
+                    source={require('./images/tabs/user.png')}
+                    style={{width:30,height:30,tintColor:tintColor}}
+                    />
+            )
+            }
+
+            render() {
+                console.log('render');
+                return(
+                    <View style={styles.container}>
+                        <Text>电力用户</Text>
+                    </View>
+                )
+            }
+}
+
+
+class companyPage extends Component {
+
+    static navigationOptions ={
+        tabBarLabel:'售电公司',
+        tabBarIcon:({focused,tintColor})=>(
+            <Image
+                source={require('./images/tabs/company.png')}
+                style={{width:30,height:30,tintColor:tintColor}}
+            />
+        )
+    }
+
+    render() {
+        console.log('render');
+        return(
+            <View style={styles.container}>
+                <Text>售电公司</Text>
+            </View>
+        )
+    }
+}
+
+
+const UserTab = TabNavigator({
+    UserPage: {
+        screen: userPage,
+    },
+    CompanyPage: {
+        screen: companyPage,
+    },
+}, {
+    tabBarComponent:TabBarBottom,
+    tabBarPosition:'bottom',
+    swipeEnabled:true,
+    animationEnabled:false,
+    lazy:true,
+    initialRouteName:'UserPage',
+    order:(['UserPage','CompanyPage']),
+    backBehavior:'none',
+    tabBarOptions:{
+        activeTintColor:'red',
+        activeBackgroundColor:'blue',
+        inactiveTintColor:'yellow',
+        inactiveBackgroundColor:'#987',
+        showLabel:true,
+        labelStyle:{
+            fontSize:12
+        }
+    }
+});
 
 
 
 const styles = StyleSheet.create({
+    container:{
+        flex:1,
+        justifyContent:'center',
+        alignItems:'center'
+    },
     titles:{
         textAlign:'center',
         backgroundColor:'#00aaee',
@@ -112,10 +192,10 @@ const styles = StyleSheet.create({
 export default Nav = StackNavigator(
     {
         First:{
-            screen:TabBar,
+            screen:UserTab,
             navigationOptions:({navigation}) => ({
                 headerStyle:{
-                    height:0
+                    title: "广东电力市场交易基本规则（试行）"
                 }
             })
         },
