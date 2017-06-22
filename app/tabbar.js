@@ -4,6 +4,8 @@
 import React, { Component } from 'react';
 import { Text,View,Image,StyleSheet} from 'react-native';
 import TabNavigator from 'react-native-tab-navigator';
+import UserTab from './userTab';
+import CompanyTab from './companyTab';
 
 
 const HOME = 'user';
@@ -35,11 +37,19 @@ export default class TabBar extends Component {
     }
 
     _createChildView(tag) {
-        return (
-            <View style={{flex:1,backgroundColor:'#00baff',alignItems:'center',justifyContent:'center'}}>
-                <Text style={{fontSize:22}}>{tag}</Text>
-            </View>
-        )
+        switch (tag){
+            case HOME:
+                return (
+                    <UserTab/>
+                );
+                break;
+            case CO:
+                return (
+                    <CompanyTab/>
+                );
+                break;
+        }
+
     }
 
 

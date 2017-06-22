@@ -20,20 +20,13 @@ export default class WebViewExample extends Component {
 
     render() {
         return (
-            <View style={styles.container}>
-                <View style={styles.title}>
-                    <View style={styles.textview}>
-                        <Text style={styles.textstyle}>市场化交易测算(电力用户)</Text>
-                    </View>
-                </View>
                 <WebView
-                    style={{width:width,height:height-20,backgroundColor:'gray'}}
+                    style={{width:width,height:height-20,backgroundColor:'#f2f2f2'}}
                     source={source}
                     javaScriptEnabled={true}
                     domStorageEnabled={true}
                     scalesPageToFit={false}
                 />
-            </View>
         );
     }
 }

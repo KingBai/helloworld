@@ -5,9 +5,7 @@
  */
 import React from 'react';
 import {AppRegistry} from 'react-native';
-import SimpleApp from './app/index';
-import JustApp from './app/testNavigation';
-import MyApp from './app/tabNavigation';
+import Main from './app/index';
 
 
-AppRegistry.registerComponent('helloworld', () => SimpleApp);
+AppRegistry.registerComponent('helloworld', () => Main);

@@ -1,112 +1,150 @@
-/**
- * Created by lighting on 2017/6/15.
- */
 import React, { Component } from 'react';
-import {Text, View, Image, StyleSheet, TouchableWithoutFeedback,ScrollView,Button} from 'react-native';
-import { StackNavigator } from 'react-navigation';
-import TabNavigation from './tabNavigation';
-import ChatScreen from './guangzhou';
+import { Text,View,Image,StyleSheet,Keyboard,Button} from 'react-native';
+import TabNavigator from 'react-native-tab-navigator';
+import UserTab from './userTab';
+import CompanyTab from './companyTab';
+import {StackNavigator} from 'react-navigation';
+import CardStackStyleInterpolator from 'react-navigation/src/views/CardStackStyleInterpolator';
+import WebViewExample from './guangzhou';
 
 
-class MainScreen extends Component {
+const HOME = 'user';
+const USER_NORMAL = require('./images/tabs/user.png');
+const USER_FOCUS = require('./images/tabs/user_HL.png');
+const CO = 'company';
+const CO_NORMAL = require('./images/tabs/company.png');
+const CO_FOCUS = require('./images/tabs/company_HL.png');
 
-    static navigationOptions = ({ navigation }) => (
-        {
-        title: `市场化交易测算（）`,
-        headerBackTitle:'',
-        headerTruncatedBackTitle:'',
-        headerRight:(
-            <View>
-                <Text style={{fontSize:18, color:'#ffffff',marginRight:12,fontWeight:'bold'}}>···</Text>
-            </View>
-        ),
-        headerStyle: {
-            backgroundColor: '#00aaee',
+ class TabBar extends Component {
 
-        },
-        headerTitleStyle:{
-            color:'#ffffff',
-            fontSize:18
-        },
-        headerBackTitleStyle:{
-            tintColor:'#789'
-        },
-        gesturesEnabled:true
+    constructor(props) {
+        super(props);
+        this.state = {
+            selectedTab: HOME,
+            showTab:true
+        }
     }
-    );
+
+    componentWillMount () {
+        this.keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', ()=>{this.setState({showTab:false})});
+        this.keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', ()=>{this.setState({showTab:true})});
+    }
+
+    componentWillUnmount () {
+        this.keyboardDidShowListener.remove();
+        this.keyboardDidHideListener.remove();
+    }
+
+
+    _renderTabItem(img,selectedImg,tag,childView,titleText){
+        return (
+            <TabNavigator.Item
+                selected={this.state.selectedTab === tag}
+                renderIcon={() => <Image style={styles.tabIcon} source={img}/>}
+                renderSelectedIcon={() => <Image style={styles.tabIcon} source={selectedImg}/>}
+                onPress={() => this.setState({ selectedTab: tag })}
+                title={titleText}
+            >
+                {childView}
+            </TabNavigator.Item>
+        );
+    }
+
+    _createChildView(tag) {
+        switch (tag){
+            case HOME:
+                return (
+                    <View style={{flex:1}}>
+                        <UserTab/>
+                        <Button onPress={()=>this.props.navigation.navigate('Second')} title='ssss'></Button>
+                    </View>
+                );
+                break;
+            case CO:
+                return (
+                    <CompanyTab/>
+                );
+                break;
+        }
+
+    }
 
 
     render() {
+        let tabShow = this.state.showTab?'':{height: 0, overflow: 'hidden' };
+        let tabShow2 = this.state.showTab?{}:{ paddingBottom: 0 };
         return (
-            <TabNavigation />
+            <View style={{flex:1}}>
+                <TabNavigator  hidesTabTouch={true} tabBarStyle={[styles.tab,tabShow]} sceneStyle={tabShow2}>
+                    {this._renderTabItem(USER_NORMAL, USER_FOCUS, HOME, this._createChildView(HOME),'电力用户')}
+                    {this._renderTabItem(CO_NORMAL, CO_FOCUS, CO, this._createChildView(CO),'售电公司')}
+                </TabNavigator>
+            </View>
         );
     }
 }
 
 
 
-
 const styles = StyleSheet.create({
-    tab:{
-        flexDirection: 'row',
+    titles:{
+        textAlign:'center',
+        backgroundColor:'#00aaee',
         height:50,
-        alignSelf: 'stretch',
-        backgroundColor:'#fff'
+        color:'#ffffff',
+        fontSize:18,
+        lineHeight:36
     },
-    textview: {
-        flex: 1,
-        alignSelf: 'center',
+    tab: {
+        height: 45,
+        backgroundColor: '#ffffff',
+        alignItems: 'center',
     },
-    textstyle: {
-        fontSize: 18,
-        color: '#fff',
-        textAlign: 'center',
-    },
-    tabDefault:{
-        textAlign:'center',
-        color:'#3A3A3A',
-        fontSize:16,
-        lineHeight:37
-    },
-    tabActive:{
-        textAlign:'center',
-        color:'#00aaee',
-        fontSize:16,
-        lineHeight:37
-    },
-    tabActiveBorder:{
-        flex:1,
-        borderStyle:'solid',
-        borderBottomColor:'#00aaee',
-        borderBottomWidth:2
-    },
-    tabNoBorder:{
-        flex:1
-    },
-    box:{
-        backgroundColor:'#fff',
-        marginTop:10
-    },
-    linkText:{
-        fontSize:12,
-        textAlign:'center',
-        color:'#8d8d8d',
-        marginTop:30,
-        marginBottom:30,
-        borderBottomColor:'#8d8d8d',
-        borderStyle:'solid',
-        borderBottomWidth:1,
-        marginLeft:12,
-        marginRight:12,
-        alignSelf: 'center'
+    tabIcon: {
+        width: 22,
+        height: 22,
+        resizeMode: 'stretch',
+        marginTop: 10
     }
-
 });
 
 
-// 注册导航
-export default  SimpleApp = StackNavigator({
-    Home:{
-            screen: MainScreen
+export default Nav = StackNavigator(
+    {
+        First:{
+            screen:TabBar,
+            navigationOptions:({navigation}) => ({
+                headerStyle:{
+                    height:0
+                }
+            })
+        },
+        Second:{
+            screen:WebViewExample,
+            navigationOptions:({navigation}) => ({
+                title: "广东电力市场交易基本规则（试行）"
+            })
         }
-});
+    },
+    {
+        initialRouteName:'First',
+        initialRouteParams:{
+            data:'haha'
+        },
+        navigationOptions:{
+            headerTintColor:'red'
+        },
+        mode:'card',
+        headerMode:'screen',
+        cardStyle:({backgroundColor:'#f1f1f1'}),
+        onTransitionStart:((route)=>{
+            console.log('开始动画');
+        }),
+        onTransitionEnd:((route)=>{
+            console.log('结束动画');
+        }),
+        transitionConfig:(()=>({
+            screenInterpolator:CardStackStyleInterpolator.forHorizontal,
+        }))
+    }
+);
