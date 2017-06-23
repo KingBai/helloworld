@@ -5,7 +5,7 @@
  */
 import React from 'react';
 import {AppRegistry} from 'react-native';
-import Main from './app/index';
+import UserPage from './app/userTab';
+import Index from './app/index';
 
-
-AppRegistry.registerComponent('helloworld', () => Main);
+AppRegistry.registerComponent('helloworld', () => Index);

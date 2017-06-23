@@ -7,18 +7,26 @@ import {Text, View, TextInput,StyleSheet,KeyboardAvoidingView} from 'react-nativ
 export class HelloInputText extends Component {
 
         render() {
-            return (
-            <KeyboardAvoidingView behavior='position' >
-                    <View style={styles.main}>
-                        <Text style={styles.inputTitle}>{this.props.titleName}</Text>
-                        <TextInput
-                            underlineColorAndroid={'transparent'}
-                            style={styles.inputStyle}
-                            keyboardType = {'numeric'}
-                        />
-                        <Text style={styles.inputUnit}>{this.props.unit}</Text>
-                    </View>
+            let textView =null;
+            if(this.props.flag=='true'){
+                textView =
+                    <TextInput
+                        underlineColorAndroid={'transparent'}
+                        style={styles.inputStyle}
+                        keyboardType = {'numeric'}
+                    />;
+            }else {
+                textView = <Text style={styles.ResultStyle}>{this.props.textValue}</Text>;
+            }
 
+            return (
+
+            <KeyboardAvoidingView behavior='position' >
+                <View style={styles.main}>
+                    <Text style={styles.inputTitle}>{this.props.titleName}</Text>
+                    {textView}
+                    <Text style={styles.inputUnit}>{this.props.unit}</Text>
+                </View>
             </KeyboardAvoidingView>
             )
     }
@@ -59,5 +67,22 @@ const styles = StyleSheet.create({
         textAlign:'right',
         marginRight:4,
         backgroundColor:'#fff',
+    },
+    ResultUnit:{
+        color:'#8d8d8d',
+        fontSize:14,
+        lineHeight:36,
+        textAlign:'right',
+        backgroundColor:'#fff',
+    },
+    ResultStyle:{
+        flex:1,
+        padding: 0,
+        marginRight:4,
+        backgroundColor:'#fff',
+        textAlign:'right',
+        lineHeight:36,
+        fontSize:14,
+        color:'#00aaee'
     }
 });
