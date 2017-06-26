@@ -8,25 +8,9 @@ import PickerWidget from './PickerWidget';
 import NavigationManager from './NavigationManager';
 import Communications from 'react-native-communications';
 
-export class UserInput extends Component {
-
-
-    selectTopic(){
-        Communications.phonecall('010-82781699', true);
-    }
-
-    render() {
-
-    }
-}
-
 export class UserResult extends Component {
 
 
-    constructor(props) {
-        super(props);
-        console.log(NavigationManager.navNavigation);
-    }
 
 
     selectTopic(){

@@ -3,8 +3,13 @@
  */
 import React, { Component } from 'react';
 import {Text, View, TextInput,StyleSheet,KeyboardAvoidingView} from 'react-native';
+import NavigationManager from './NavigationManager';
 
 export class HelloInputText extends Component {
+
+        constructor(props){
+            super(props)
+        }
 
         render() {
             let textView =null;
@@ -14,6 +19,7 @@ export class HelloInputText extends Component {
                         underlineColorAndroid={'transparent'}
                         style={styles.inputStyle}
                         keyboardType = {'numeric'}
+                        onChangeText={text=>{this.props.changeFather(this.props.index,text)}}
                     />;
             }else {
                 textView = <Text style={styles.ResultStyle}>{this.props.textValue}</Text>;

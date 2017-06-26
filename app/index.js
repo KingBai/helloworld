@@ -65,7 +65,7 @@ import NavigationManager from './NavigationManager';
              );
              break;
              case CO:
-             return (<CompanyTab/>);
+             return (<UserTab/>);
              break;
      }
 
@@ -159,10 +159,10 @@ export default Nav = StackNavigator(
         headerMode:'screen',
         cardStyle:({backgroundColor:'#F5F5F5'}),
         onTransitionStart:((route)=>{
-            console.log('开始动画');
+            //console.log('开始动画');
         }),
         onTransitionEnd:((route)=>{
-            console.log('结束动画');
+            //console.log('结束动画');
         }),
         transitionConfig:(()=>({
             screenInterpolator:CardStackStyleInterpolator.forHorizontal,

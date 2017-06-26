@@ -17,6 +17,7 @@ import NavigationManager from './NavigationManager';
 import {HelloInputText} from './helloInputText';
 import PickerWidget from './PickerWidget';
 import Communications from 'react-native-communications';
+import calculator from './calculate';
 
 export default class UserTab extends Component{
 
@@ -24,7 +25,8 @@ export default class UserTab extends Component{
         super(props)
         this.state={
             isTab1:true,
-            result:['1','2','12','21','14','25','16','27','18','29']
+            result:['','','','','','','','','',''],
+            inputArray:['','','','','','','','']
         }
     }
 
@@ -32,15 +34,22 @@ export default class UserTab extends Component{
         Communications.phonecall('010-82781699', true);
     }
 
+    calculate(props){
+        this.state.inputArray;
+    }
+
     render() {
 
-        var tabView;
+/*        var tabView;
         if(this.state.isTab1){
             tabView=
-                <UserInput handleVal={this.handleVal} />
+                <UserInput />
         }else {
             tabView=<UserResult resultValue={this.state.result} />
-        }
+        }*/
+        let area = ['广东省','北京市'];
+        let picked = ['北京市'];
+        let c = this.state.result;
 
         return(
 
@@ -59,7 +68,34 @@ export default class UserTab extends Component{
                 </TouchableWithoutFeedback>
             </View>
 
-            {tabView}
+            <View style={this.state.isTab1?styles.box:styles.hidden}>
+                <PickerWidget titleName='市场区域' type='single' data={area} pick={picked}></PickerWidget>
+                <HelloInputText index="0" changeFather={(index,text)=>{this.state.inputArray[index]=text}}    flag='true' titleName='双边协商价差' unit='厘/千瓦时'></HelloInputText>
+                <HelloInputText index='1' changeFather={(index,text)=>{this.state.inputArray[index]=text}}    flag='true' titleName='双边协商月度分解电量' unit='万千瓦时'></HelloInputText>
+                <HelloInputText index='2' changeFather={(index,text)=>{this.state.inputArray[index]=text}}    flag='true' titleName='月度出清结算价差' unit='厘/千瓦时'></HelloInputText>
+                <HelloInputText index='3' changeFather={(index,text)=>{this.state.inputArray[index]=text}}    flag='true' titleName='月度竞价成交电量' unit='万千瓦时'></HelloInputText>
+                <HelloInputText index='4' changeFather={(index,text)=>{this.state.inputArray[index]=text}}    flag='true' titleName='合同总电量' unit='万千瓦时'></HelloInputText>
+                <HelloInputText index='5' changeFather={(index,text)=>{this.state.inputArray[index]=text}}    flag='true' titleName='实际总用电量' unit='万千瓦时'></HelloInputText>
+                <HelloInputText index='6' changeFather={(index,text)=>{this.state.inputArray[index]=text}}    flag='true' titleName='综合目录电价' unit='万千瓦时'></HelloInputText>
+                <HelloInputText index='7' changeFather={(index,text)=>{this.state.inputArray[index]=text}}    flag='true' titleName='允许偏差范围' unit='%'></HelloInputText>
+            </View>
+
+
+            <View style={!this.state.isTab1?styles.resultBoxBack:styles.hidden}>
+                <Text style={{marginTop:12,marginLeft:12,fontSize:12}}>用户收益</Text>
+                <View style={styles.resultBox}>
+                    <Text style={{width:100,fontSize:40,textAlign:'right',color:'#00AAee'}}>{c[0]}</Text>
+                    <Text style={{width:60,fontSize:12,textAlign:'left',paddingTop:20,color:'#8d8d8d'}}>万元</Text>
+                </View>
+            </View>
+            <View style={this.state.isTab1?styles.hidden:styles.box}>
+                <HelloInputText flag='false' textValue={c[1]} titleName='偏差结算电量' unit='万千瓦时'></HelloInputText>
+                <HelloInputText flag='false' textValue={c[2]} titleName='长协收益' unit='万元'></HelloInputText>
+                <HelloInputText flag='false' textValue={c[3]} titleName='月度竞价收益' unit='万元'></HelloInputText>
+                <HelloInputText flag='false' textValue={c[4]} titleName='偏差结算费用' unit='万元'></HelloInputText>
+                <HelloInputText flag='false' textValue={c[5]} titleName='市场化前支出' unit='万元'></HelloInputText>
+                <HelloInputText flag='false' textValue={c[6]} titleName='实际缴纳电费' unit='万元'></HelloInputText>
+            </View>
 
             <View>
                 <TouchableOpacity onPress={()=>{
@@ -73,10 +109,18 @@ export default class UserTab extends Component{
 
                         <Text style={styles.button}>重置</Text>
                     </View>
-                    <TouchableWithoutFeedback onPress={() =>{this.setState({
-                        result:['12','21','12','21','14','25','16','27','18','29'],
-                        isTab1:false
-                    })}}>
+                    <TouchableWithoutFeedback onPress={() =>{
+                        let result =calculator.doConsCalc(
+                            this.state.inputArray[0], this.state.inputArray[1],this.state.inputArray[2],
+                            this.state.inputArray[3], this.state.inputArray[4],this.state.inputArray[5],
+                            this.state.inputArray[6],this.state.inputArray[7]
+                        );
+                        this.setState({
+                            result:result,
+                            isTab1:false
+                        })
+                        console.log(this.state.inputArray)
+                    }}>
                         <View>
                             <Text style={styles.button}>测算</Text>
                         </View>
@@ -100,45 +144,11 @@ export default class UserTab extends Component{
     }
 };
 
-class UserInput  extends Component{
-
-    render() {
-        let area = ['广东省','北京市'];
-        let picked = ['北京市'];
-        return(
-            <View style={styles.box}>
-                <PickerWidget titleName='市场区域' type='single' data={area} pick={picked}></PickerWidget>
-                <HelloInputText flag='true' titleName='双边协商价差' unit='厘/千瓦时'></HelloInputText>
-                <HelloInputText flag='true' titleName='双边协商月度分解电量' unit='万千瓦时'></HelloInputText>
-                <HelloInputText flag='true' titleName='月度出清结算价差' unit='厘/千瓦时'></HelloInputText>
-                <HelloInputText flag='true' titleName='月度竞价成交电量' unit='万千瓦时'></HelloInputText>
-                <HelloInputText flag='true' titleName='合同总电量' unit='万千瓦时'></HelloInputText>
-                <HelloInputText flag='true' titleName='实际总用电量' unit='万千瓦时'></HelloInputText>
-                <HelloInputText flag='true' titleName='综合目录电价' unit='万千瓦时'></HelloInputText>
-                <HelloInputText flag='true' titleName='允许偏差范围' unit='%'></HelloInputText>
-            </View>
-    )}
-}
-
-
-class UserResult extends Component{
-
-    render() {
-        let c = this.props.resultValue;
-        return(
-            <View style={styles.box}>
-                <HelloInputText flag='false' textValue={c[0]} titleName='偏差结算电量' unit='万千瓦时'></HelloInputText>
-                <HelloInputText flag='false' textValue={c[1]} titleName='长协收益' unit='万元'></HelloInputText>
-                <HelloInputText flag='false' textValue={c[2]} titleName='月度竞价收益' unit='万元'></HelloInputText>
-                <HelloInputText flag='false' textValue={c[3]} titleName='偏差结算费用' unit='万元'></HelloInputText>
-                <HelloInputText flag='false' textValue={c[4]} titleName='市场化前支出' unit='万元'></HelloInputText>
-                <HelloInputText flag='false' textValue={c[5]} titleName='实际缴纳电费' unit='万元'></HelloInputText>
-            </View>
-        )}
-}
-
 
 const styles = StyleSheet.create({
+    hidden:{
+      display:'none'
+    },
     container:{
         flex: 1,
         flexDirection: 'row'
@@ -147,14 +157,14 @@ const styles = StyleSheet.create({
         flex:1,
         backgroundColor:'#fff',
         borderBottomColor:'#00aaee',
-        borderBottomWidth:1,
+        borderBottomWidth:2,
         height:40
     },
     tab2:{
         flex:1,
         height:40,
         backgroundColor:'#fff',
-        borderBottomColor:'#f1f1f1',
+        borderBottomColor:'#e6e6e6',
         borderBottomWidth:1,
     },
     textActive:{
@@ -204,6 +214,15 @@ const styles = StyleSheet.create({
     },
     buttonHide:{
         display:'none'
+    },
+    resultBox:{
+        flex:1,
+        flexDirection: 'row',
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    resultBoxBack:{
+        flex:1,backgroundColor:'#fff',height:120,marginLeft:12,marginRight:12,marginTop:12
     }
 
 });

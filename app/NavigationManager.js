@@ -5,5 +5,7 @@
 var NavigationManager = {
     drawerNavigation:null,
     tabNavigation:null,
-    navNavigation:null
+    navNavigation:null,
+    inputArray:['','','','','','','',''],
+    array1:null
 };
