@@ -200,11 +200,10 @@ export default class PickerTest extends Component {
             pickerConfirmBtnText:'确定',
             pickerCancelBtnText:'取消',
             pickerTitleText:'请选择',
-
             pickerConfirmBtnColor:[0,170,238,1],
             pickerCancelBtnColor:[58,58,58,1],
             pickerTitleColor:[141,141,141,1],
-            pickerBg:[255,255,255,0],
+            pickerBg:[255,255,255,1],
             pickerToolBarBg:[255,255,255,1],
             pickerToolBarFontSize:14,
             pickerFontSize:16,
@@ -263,10 +262,12 @@ export default class PickerTest extends Component {
 
 
         return (
-            <View style={styles.main}>
-                <Text style={styles.inputTitle}>{this.props.titleName}</Text>
-                {view}
-            </View>
+            <TouchableOpacity onPress={Picker.hide()}>
+                <View style={styles.main}>
+                    <Text style={styles.inputTitle}>{this.props.titleName}</Text>
+                    {view}
+                </View>
+            </TouchableOpacity>
         );
     }
 };

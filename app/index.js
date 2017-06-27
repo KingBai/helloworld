@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Text,View,Image,StyleSheet,Keyboard,Dimensions} from 'react-native';
+import { Text,View,Image,StyleSheet,Keyboard,Dimensions,StatusBar} from 'react-native';
 import {StackNavigator} from 'react-navigation';
 import TabNavigator from 'react-native-tab-navigator';
 import CardStackStyleInterpolator from 'react-navigation/src/views/CardStackStyleInterpolator';
@@ -121,7 +121,13 @@ export default Nav = StackNavigator(
             navigationOptions:({navigation}) => ({
                 header:(
                     <View style={{width:Dimensions.get('window').width,height:55,backgroundColor:'#00aaee'}}>
-                        <Text style={{textAlign:'center',fontSize:16,color:'#fff',lineHeight:38}}>市场化交易测算</Text>
+                        <StatusBar
+                            backgroundColor='#ff0000'
+                            translucent={true}
+                            hidden={true}
+                            animated={true}
+                        />
+                        <Text style={{textAlign:'center',fontSize:16,color:'#fff',marginTop:20}}>市场化交易测算</Text>
                     </View>
                 )
             })
@@ -140,7 +146,7 @@ export default Nav = StackNavigator(
                 },
                 headerTitleStyle:{
                     color:'#ffffff',
-                    fontSize:14
+                    fontSize:12
                 },
                 headerBackTitleStyle:{
                     tintColor:'#fff'
@@ -158,12 +164,6 @@ export default Nav = StackNavigator(
         mode:'card',
         headerMode:'screen',
         cardStyle:({backgroundColor:'#F5F5F5'}),
-        onTransitionStart:((route)=>{
-            //console.log('开始动画');
-        }),
-        onTransitionEnd:((route)=>{
-            //console.log('结束动画');
-        }),
         transitionConfig:(()=>({
             screenInterpolator:CardStackStyleInterpolator.forHorizontal,
         }))

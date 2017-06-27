@@ -52,7 +52,7 @@ export default class UserTab extends Component{
         let c = this.state.result;
 
         return(
-
+    <TouchableWithoutFeedback onPress={}>
         <ScrollView  ref='scroll' style={{backgroundColor:'#f1f1f1'}}>
             <View style={styles.container}>
                 <TouchableWithoutFeedback onPress={()=>{this.setState({isTab1:true})}}>
@@ -70,7 +70,7 @@ export default class UserTab extends Component{
 
             <View style={this.state.isTab1?styles.box:styles.hidden}>
                 <PickerWidget titleName='市场区域' type='single' data={area} pick={picked}></PickerWidget>
-                <HelloInputText index="0" changeFather={(index,text)=>{this.state.inputArray[index]=text}}    flag='true' titleName='双边协商价差' unit='厘/千瓦时'></HelloInputText>
+                <HelloInputText index="0" changeFather={(index,text)=>{this.state.inputArray[index]=text}}    flag='true' titleName='双边协商价差1' unit='厘/千瓦时'></HelloInputText>
                 <HelloInputText index='1' changeFather={(index,text)=>{this.state.inputArray[index]=text}}    flag='true' titleName='双边协商月度分解电量' unit='万千瓦时'></HelloInputText>
                 <HelloInputText index='2' changeFather={(index,text)=>{this.state.inputArray[index]=text}}    flag='true' titleName='月度出清结算价差' unit='厘/千瓦时'></HelloInputText>
                 <HelloInputText index='3' changeFather={(index,text)=>{this.state.inputArray[index]=text}}    flag='true' titleName='月度竞价成交电量' unit='万千瓦时'></HelloInputText>
@@ -84,8 +84,8 @@ export default class UserTab extends Component{
             <View style={!this.state.isTab1?styles.resultBoxBack:styles.hidden}>
                 <Text style={{marginTop:12,marginLeft:12,fontSize:12}}>用户收益</Text>
                 <View style={styles.resultBox}>
-                    <Text style={{width:100,fontSize:40,textAlign:'right',color:'#00AAee'}}>{c[0]}</Text>
-                    <Text style={{width:60,fontSize:12,textAlign:'left',paddingTop:20,color:'#8d8d8d'}}>万元</Text>
+                    <Text style={{flex:1,fontSize:40,textAlign:'right',color:'#00AAee'}}>{c[0]}</Text>
+                    <Text style={{flex:1,fontSize:12,textAlign:'left',paddingTop:20,color:'#8d8d8d'}}>万元</Text>
                 </View>
             </View>
             <View style={this.state.isTab1?styles.hidden:styles.box}>
@@ -136,7 +136,7 @@ export default class UserTab extends Component{
 
             </View>
         </ScrollView>
-
+    </TouchableWithoutFeedback>
         )
 
 

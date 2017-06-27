@@ -30,27 +30,3 @@ export default class WebViewExample extends Component {
         );
     }
 }
-
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        backgroundColor: '#f2f2f2',
-        paddingTop:20,
-    },
-    title: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        height: 45,
-        alignSelf: 'stretch',
-        backgroundColor: '#4a9df8',
-    },
-    textstyle: {
-        fontSize: 18,
-        color: '#fff',
-        textAlign: 'center',
-    },
-    textview: {
-        flex: 1,
-        alignSelf: 'center',
-    },
-});
