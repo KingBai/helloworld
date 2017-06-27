@@ -2,9 +2,7 @@
  * Created by lighting on 2017/6/15.
  */
 import React, { Component } from 'react';
-import {Text, View, TextInput,StyleSheet,KeyboardAvoidingView} from 'react-native';
-import NavigationManager from './NavigationManager';
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
+import {Text, View, TextInput,StyleSheet} from 'react-native';
 
 export class HelloInputText extends Component {
 
@@ -27,16 +25,11 @@ export class HelloInputText extends Component {
             }
 
             return (
-                <KeyboardAwareScrollView
-                    onKeyboardWillShow={(frames: Object) => {
-                        console.log('Keyboard event', frames)
-                    }}>
                 <View style={styles.main}>
                     <Text style={styles.inputTitle}>{this.props.titleName}</Text>
                     {textView}
                     <Text style={styles.inputUnit}>{this.props.unit}</Text>
                 </View>
-                </KeyboardAwareScrollView>
             )
     }
 }
