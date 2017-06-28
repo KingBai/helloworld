@@ -24,7 +24,7 @@ export default class UserTab extends Component{
         super(props)
         this.state={
             isTab1:true,
-            result:['','','','','','','','','',''],
+            result:['','','','','','','','','','','','','',''],
             inputArray:['','','','','','','','']
         }
     }
@@ -74,7 +74,7 @@ export default class UserTab extends Component{
 
                 <View style={this.state.isTab1?styles.box:styles.hidden}>
                     <PickerWidget titleName='市场区域' type='single' data={area} pick={picked}></PickerWidget>
-                    <HelloInputText index="0" changeFather={(index,text)=>{this.state.inputArray[index]=text}}    flag='true' titleName='双边协商价差1' unit='厘/千瓦时'></HelloInputText>
+                    <HelloInputText index="0" changeFather={(index,text)=>{this.state.inputArray[index]=text}}    flag='true' titleName='双边协商价差' unit='厘/千瓦时'></HelloInputText>
                     <HelloInputText index='1' changeFather={(index,text)=>{this.state.inputArray[index]=text}}    flag='true' titleName='双边协商月度分解电量' unit='万千瓦时'></HelloInputText>
                     <HelloInputText index='2' changeFather={(index,text)=>{this.state.inputArray[index]=text}}    flag='true' titleName='月度出清结算价差' unit='厘/千瓦时'></HelloInputText>
                     <HelloInputText index='3' changeFather={(index,text)=>{this.state.inputArray[index]=text}}    flag='true' titleName='月度竞价成交电量' unit='万千瓦时'></HelloInputText>
@@ -82,6 +82,10 @@ export default class UserTab extends Component{
                     <HelloInputText index='5' changeFather={(index,text)=>{this.state.inputArray[index]=text}}    flag='true' titleName='实际总用电量' unit='万千瓦时'></HelloInputText>
                     <HelloInputText index='6' changeFather={(index,text)=>{this.state.inputArray[index]=text}}    flag='true' titleName='综合目录电价' unit='万千瓦时'></HelloInputText>
                     <HelloInputText index='7' changeFather={(index,text)=>{this.state.inputArray[index]=text}}    flag='true' titleName='允许偏差范围' unit='%'></HelloInputText>
+                    <HelloInputText index='8' changeFather={(index,text)=>{this.state.inputArray[index]=text}}    flag='true' titleName='允许偏差范围' unit='%'></HelloInputText>
+                    <HelloInputText index='9' changeFather={(index,text)=>{this.state.inputArray[index]=text}}    flag='true' titleName='允许偏差范围' unit='%'></HelloInputText>
+                    <HelloInputText index='10' changeFather={(index,text)=>{this.state.inputArray[index]=text}}    flag='true' titleName='允许偏差范围' unit='%'></HelloInputText>
+                    <HelloInputText index='11' changeFather={(index,text)=>{this.state.inputArray[index]=text}}    flag='true' titleName='允许偏差范围' unit='%'></HelloInputText>
                 </View>
 
 
