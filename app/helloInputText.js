@@ -2,7 +2,7 @@
  * Created by lighting on 2017/6/15.
  */
 import React, { Component } from 'react';
-import {Text, View, TextInput,StyleSheet,Dimensions,Keyboard,PixelRatio} from 'react-native';
+import {Text, View, TextInput,StyleSheet,Dimensions,Keyboard,Platform} from 'react-native';
 import NavigationManager from './NavigationManager';
 
 export class HelloInputText extends Component {
@@ -57,7 +57,10 @@ export class HelloInputText extends Component {
                             var height = 563-(50+this.state.downloadY-this.props.scrollKey);
                             //console.log('wh'+Dimensions.get('window').height+'height:'+this.props.scrollKey+"keyboard"+this.state.keyboardSpace)
                             if(height<this.state.keyboardSpace){
+
                                 let scroll = this.state.keyboardSpace-height+this.props.scrollKey;//键盘高度-元素距离底部位置+已滚动距离
+                                //console.log(scroll)
+                                if(Platform.OS!='ios')scroll=scroll+23//安卓下回出现在光标处
                                 NavigationManager.scrollView.scrollTo({y:scroll})
                             }
                         }}

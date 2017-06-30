@@ -10,7 +10,7 @@ import {
     Image,
     Text,
     TouchableWithoutFeedback,
-    Keyboard
+    Platform
 } from 'react-native';
 import NavigationManager from './NavigationManager';
 import {HelloInputText} from './helloInputText';
@@ -57,7 +57,7 @@ export default class UserTab extends Component{
                              console.log(e.nativeEvent)
                              this.setState(
                                  {
-                                     scrollHeight:e.nativeEvent.targetContentOffset.y
+                                     scrollHeight:e.nativeEvent.contentOffset.y
                                  }
                              )
                          }}
@@ -146,6 +146,7 @@ export default class UserTab extends Component{
                     </TouchableOpacity>
 
                 </View>
+                <View style={{height:Platform.OS == 'ios' ? 0:30,}}></View>
             </ScrollView>
         )
 

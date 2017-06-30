@@ -6,5 +6,6 @@
 import React from 'react';
 import {AppRegistry} from 'react-native';
 import Index from './app/index';
+import PanelResponder from './app/PanelResponder';
 
 AppRegistry.registerComponent('helloworld', () => Index);

@@ -262,7 +262,7 @@ export default class PickerTest extends Component {
 
 
         return (
-            <TouchableOpacity onPress={Picker.hide()}>
+            <TouchableOpacity onPress={()=>{Picker.hide()}}>
                 <View style={styles.main}>
                     <Text style={styles.inputTitle}>{this.props.titleName}</Text>
                     {view}
