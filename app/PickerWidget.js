@@ -224,6 +224,10 @@ export default class PickerTest extends Component {
         Picker.toggle();
     }
 
+    _tohide() {
+        Picker.hide();
+    }
+
     _isPickerShow(){
         Picker.isPickerShow(status => {
             alert(status);
@@ -262,7 +266,7 @@ export default class PickerTest extends Component {
 
 
         return (
-            <TouchableOpacity onPress={()=>{Picker.hide()}}>
+            <TouchableOpacity onPress={this._tohide()}>
                 <View style={styles.main}>
                     <Text style={styles.inputTitle}>{this.props.titleName}</Text>
                     {view}
