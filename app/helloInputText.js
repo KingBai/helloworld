@@ -2,13 +2,48 @@
  * Created by lighting on 2017/6/15.
  */
 import React, { Component } from 'react';
-import {Text, View, TextInput,StyleSheet} from 'react-native';
+import {Text, View, TextInput,StyleSheet,Dimensions,Keyboard,PixelRatio} from 'react-native';
+import NavigationManager from './NavigationManager';
 
 export class HelloInputText extends Component {
 
-        constructor(props){
-            super(props)
+
+    constructor(props){
+        super(props)
+        this.state={
+            downloadY:0,
+            keyboardSpace:216
         }
+    }
+
+    componentWillMount() {
+        this.keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', this._keyboardDidShow.bind(this));
+        this.keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', this._keyboardDidHide.bind(this));
+    }
+
+
+    componentWillUnmount () {
+        this.keyboardDidShowListener.remove();
+        this.keyboardDidHideListener.remove();
+    }
+
+    _keyboardDidShow (frames) {
+        if(!frames.endCoordinates){
+            return;
+        }
+        this.setState({
+            keyboardSpace : frames.endCoordinates.height//获取键盘高度
+        })
+    }
+
+    _keyboardDidHide (frame) {
+
+    }
+
+
+
+
+
 
         render() {
             let textView =null;
@@ -18,6 +53,14 @@ export class HelloInputText extends Component {
                         underlineColorAndroid={'transparent'}
                         style={styles.inputStyle}
                         keyboardType = {'numeric'}
+                        onFocus={()=>{
+                            var height = 563-(50+this.state.downloadY-this.props.scrollKey);
+                            //console.log('wh'+Dimensions.get('window').height+'height:'+this.props.scrollKey+"keyboard"+this.state.keyboardSpace)
+                            if(height<this.state.keyboardSpace){
+                                let scroll = this.state.keyboardSpace-height+this.props.scrollKey;//键盘高度-元素距离底部位置+已滚动距离
+                                NavigationManager.scrollView.scrollTo({y:scroll})
+                            }
+                        }}
                         onChangeText={text=>{this.props.changeFather(this.props.index,text)}}
                     />;
             }else {
@@ -25,11 +68,15 @@ export class HelloInputText extends Component {
             }
 
             return (
-                <View style={styles.main}>
-                    <Text style={styles.inputTitle}>{this.props.titleName}</Text>
-                    {textView}
-                    <Text style={styles.inputUnit}>{this.props.unit}</Text>
-                </View>
+                    <View style={styles.main} onLayout={e=>{
+                        this.setState({
+                            downloadY: e.nativeEvent.layout.y
+                        })
+                    }} >
+                            <Text style={styles.inputTitle}>{this.props.titleName}</Text>
+                            {textView}
+                            <Text style={styles.inputUnit}>{this.props.unit}</Text>
+                    </View>
             )
     }
 }

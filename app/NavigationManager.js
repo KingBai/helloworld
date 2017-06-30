@@ -6,6 +6,6 @@ var NavigationManager = {
     drawerNavigation:null,
     tabNavigation:null,
     navNavigation:null,
-    inputArray:['','','','','','','',''],
-    array1:null
+    scrollView:null,
+    scrollViewPlateHeight:null
 };

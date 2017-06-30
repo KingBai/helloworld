@@ -9,14 +9,14 @@ import {
     TouchableOpacity,
     Image,
     Text,
-    TouchableWithoutFeedback
+    TouchableWithoutFeedback,
+    Keyboard
 } from 'react-native';
 import NavigationManager from './NavigationManager';
 import {HelloInputText} from './helloInputText';
 import PickerWidget from './PickerWidget';
 import Communications from 'react-native-communications';
 import calculator from './calculate';
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 
 export default class UserTab extends Component{
 
@@ -25,16 +25,15 @@ export default class UserTab extends Component{
         this.state={
             isTab1:true,
             result:['','','','','','','','','','','','','',''],
-            inputArray:['','','','','','','','']
+            inputArray:['','','','','','','',''],
+            scrollHeight:0,
+            keyboardSpace:0
         }
     }
 
+
     call(){
         Communications.phonecall('010-82781699', true);
-    }
-
-    calculate(props){
-        this.state.inputArray;
     }
 
     render() {
@@ -51,13 +50,18 @@ export default class UserTab extends Component{
         let c = this.state.result;
 
         return(
-        <KeyboardAwareScrollView
-            style={{backgroundColor: '#f1f1f1'}}
-            resetScrollToCoords={{x: 0, y: 0}}
-            contentContainerStyle={{flex:1}}
-            scrollEnabled={false}
-        >
-            <ScrollView  ref='scroll' style={{backgroundColor:'#f1f1f1'}}>
+            <ScrollView  ref={(scrollView) => { NavigationManager.scrollView = scrollView; }}
+                         style={{backgroundColor:'#f1f1f1'}}
+                         onScrollEndDrag={e=>{
+
+                             console.log(e.nativeEvent)
+                             this.setState(
+                                 {
+                                     scrollHeight:e.nativeEvent.targetContentOffset.y
+                                 }
+                             )
+                         }}
+            >
                 <View style={styles.container}>
                     <TouchableWithoutFeedback onPress={()=>{this.setState({isTab1:true})}}>
                         <View style={this.state.isTab1?styles.tab1:styles.tab2}>
@@ -74,18 +78,18 @@ export default class UserTab extends Component{
 
                 <View style={this.state.isTab1?styles.box:styles.hidden}>
                     <PickerWidget titleName='市场区域' type='single' data={area} pick={picked}></PickerWidget>
-                    <HelloInputText index="0" changeFather={(index,text)=>{this.state.inputArray[index]=text}}    flag='true' titleName='双边协商价差' unit='厘/千瓦时'></HelloInputText>
-                    <HelloInputText index='1' changeFather={(index,text)=>{this.state.inputArray[index]=text}}    flag='true' titleName='双边协商月度分解电量' unit='万千瓦时'></HelloInputText>
-                    <HelloInputText index='2' changeFather={(index,text)=>{this.state.inputArray[index]=text}}    flag='true' titleName='月度出清结算价差' unit='厘/千瓦时'></HelloInputText>
-                    <HelloInputText index='3' changeFather={(index,text)=>{this.state.inputArray[index]=text}}    flag='true' titleName='月度竞价成交电量' unit='万千瓦时'></HelloInputText>
-                    <HelloInputText index='4' changeFather={(index,text)=>{this.state.inputArray[index]=text}}    flag='true' titleName='合同总电量' unit='万千瓦时'></HelloInputText>
-                    <HelloInputText index='5' changeFather={(index,text)=>{this.state.inputArray[index]=text}}    flag='true' titleName='实际总用电量' unit='万千瓦时'></HelloInputText>
-                    <HelloInputText index='6' changeFather={(index,text)=>{this.state.inputArray[index]=text}}    flag='true' titleName='综合目录电价' unit='万千瓦时'></HelloInputText>
-                    <HelloInputText index='7' changeFather={(index,text)=>{this.state.inputArray[index]=text}}    flag='true' titleName='允许偏差范围' unit='%'></HelloInputText>
-                    <HelloInputText index='8' changeFather={(index,text)=>{this.state.inputArray[index]=text}}    flag='true' titleName='允许偏差范围' unit='%'></HelloInputText>
-                    <HelloInputText index='9' changeFather={(index,text)=>{this.state.inputArray[index]=text}}    flag='true' titleName='允许偏差范围' unit='%'></HelloInputText>
-                    <HelloInputText index='10' changeFather={(index,text)=>{this.state.inputArray[index]=text}}    flag='true' titleName='允许偏差范围' unit='%'></HelloInputText>
-                    <HelloInputText index='11' changeFather={(index,text)=>{this.state.inputArray[index]=text}}    flag='true' titleName='允许偏差范围' unit='%'></HelloInputText>
+                    <HelloInputText index="0" changeFather={(index,text)=>{this.state.inputArray[index]=text}}  scrollKey={this.state.scrollHeight}   flag='true' titleName='双边协商价差' unit='厘/千瓦时'></HelloInputText>
+                    <HelloInputText index='1' changeFather={(index,text)=>{this.state.inputArray[index]=text}}  scrollKey={this.state.scrollHeight}    flag='true' titleName='双边协商月度分解电量' unit='万千瓦时'></HelloInputText>
+                    <HelloInputText index='2' changeFather={(index,text)=>{this.state.inputArray[index]=text}}  scrollKey={this.state.scrollHeight}   flag='true' titleName='月度出清结算价差' unit='厘/千瓦时'></HelloInputText>
+                    <HelloInputText index='3' changeFather={(index,text)=>{this.state.inputArray[index]=text}}  scrollKey={this.state.scrollHeight}  flag='true' titleName='月度竞价成交电量' unit='万千瓦时'></HelloInputText>
+                    <HelloInputText index='4' changeFather={(index,text)=>{this.state.inputArray[index]=text}}  scrollKey={this.state.scrollHeight}   flag='true' titleName='合同总电量' unit='万千瓦时'></HelloInputText>
+                    <HelloInputText index='5' changeFather={(index,text)=>{this.state.inputArray[index]=text}}  scrollKey={this.state.scrollHeight}   flag='true' titleName='实际总用电量' unit='万千瓦时'></HelloInputText>
+                    <HelloInputText index='6' changeFather={(index,text)=>{this.state.inputArray[index]=text}}  scrollKey={this.state.scrollHeight}  flag='true' titleName='综合目录电价' unit='万千瓦时'></HelloInputText>
+                    <HelloInputText index='7' changeFather={(index,text)=>{this.state.inputArray[index]=text}}  scrollKey={this.state.scrollHeight}  flag='true' titleName='允许偏差范围' unit='%'></HelloInputText>
+                    <HelloInputText index='8' changeFather={(index,text)=>{this.state.inputArray[index]=text}}  scrollKey={this.state.scrollHeight} flag='true' titleName='允许偏差范围' unit='%'></HelloInputText>
+                    <HelloInputText index='9' changeFather={(index,text)=>{this.state.inputArray[index]=text}}  scrollKey={this.state.scrollHeight}  flag='true' titleName='允许偏差范围' unit='%'></HelloInputText>
+                    <HelloInputText index='10' changeFather={(index,text)=>{this.state.inputArray[index]=text}} scrollKey={this.state.scrollHeight}  flag='true' titleName='允许偏差范围' unit='%'></HelloInputText>
+                    <HelloInputText index='11' changeFather={(index,text)=>{this.state.inputArray[index]=text}} scrollKey={this.state.scrollHeight}  flag='true' titleName='允许偏差范围' unit='%'></HelloInputText>
                 </View>
 
 
@@ -114,8 +118,7 @@ export default class UserTab extends Component{
 
                     <View style={this.state.isTab1?styles.bottomView:styles.buttonHide}>
                         <View>
-
-                            <Text style={styles.button}>重置</Text>
+                            <Text style={styles.button}  onPress={() => { console.log(this.state.scrollHeight)}}>重置</Text>
                         </View>
                         <TouchableWithoutFeedback onPress={() =>{
                             let result =calculator.doConsCalc(
@@ -144,7 +147,6 @@ export default class UserTab extends Component{
 
                 </View>
             </ScrollView>
-        </KeyboardAwareScrollView>
         )
 
 
