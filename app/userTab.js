@@ -17,6 +17,7 @@ import {HelloInputText} from './helloInputText';
 import PickerWidget from './PickerWidget';
 import Communications from 'react-native-communications';
 import calculator from './calculate';
+import MyPicker from "./DatePicker";
 
 export default class UserTab extends Component{
 
@@ -27,7 +28,8 @@ export default class UserTab extends Component{
             result:['','','','','','','','','','','','','',''],
             inputArray:['','','','','','','',''],
             scrollHeight:0,
-            keyboardSpace:0
+            keyboardSpace:0,
+            showbg:true
         }
     }
 
@@ -35,6 +37,8 @@ export default class UserTab extends Component{
     call(){
         Communications.phonecall('010-82781699', true);
     }
+
+
 
     render() {
 
@@ -48,6 +52,7 @@ export default class UserTab extends Component{
         let area = ['广东省','北京市'];
         let picked = ['北京市'];
         let c = this.state.result;
+
 
         return(
             <ScrollView  ref={(scrollView) => { NavigationManager.scrollView = scrollView; }}
@@ -76,8 +81,11 @@ export default class UserTab extends Component{
                     </TouchableWithoutFeedback>
                 </View>
 
+
+
                 <View style={this.state.isTab1?styles.box:styles.hidden}>
-                    <PickerWidget titleName='市场区域' type='single' data={area} pick={picked}></PickerWidget>
+                    <MyPicker/>
+                    <PickerWidget titleName='市场区域' type='time' data={''} pick={picked} ></PickerWidget>
                     <HelloInputText index="0" changeFather={(index,text)=>{this.state.inputArray[index]=text}}  scrollKey={this.state.scrollHeight}   flag='true' titleName='双边协商价差' unit='厘/千瓦时'></HelloInputText>
                     <HelloInputText index='1' changeFather={(index,text)=>{this.state.inputArray[index]=text}}  scrollKey={this.state.scrollHeight}    flag='true' titleName='双边协商月度分解电量' unit='万千瓦时'></HelloInputText>
                     <HelloInputText index='2' changeFather={(index,text)=>{this.state.inputArray[index]=text}}  scrollKey={this.state.scrollHeight}   flag='true' titleName='月度出清结算价差' unit='厘/千瓦时'></HelloInputText>

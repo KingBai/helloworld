@@ -14,7 +14,8 @@
 		"react-native-picker": "^4.0.18",
 		"react-native-scrollable-tab-view": "^0.6.7",
 		"react-native-tab-navigator": "^0.3.3",
-		"react-navigation": "^1.0.0-beta.11"
+		"react-navigation": "^1.0.0-beta.11",
+		"rnkit-actionsheet-picker": "^1.0.3"
 	},
 	"devDependencies": {
 		"babel-jest": "19.0.0",

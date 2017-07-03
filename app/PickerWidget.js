@@ -24,7 +24,10 @@ export default class PickerTest extends Component {
         super(props, context);;
         data = this.props.data;
         picked = this.props.pick;
-        this.state = {selectdata:this.props.pick};
+        this.state = {
+            selectdata:this.props.pick
+        }
+
     }
 
 
@@ -128,19 +131,23 @@ export default class PickerTest extends Component {
             minutes = [];
 
         for(let i=1;i<51;i++){
-            years.push(i+1980);
+            years.push(i+1980+'年');
         }
         for(let i=1;i<13;i++){
-            months.push(i);
-            hours.push(i);
+            months.push(i+'月');
         }
         for(let i=1;i<32;i++){
-            days.push(i);
+            days.push(i+'日');
         }
-        for(let i=1;i<61;i++){
-            minutes.push(i);
+
+        for(let i=0;i<24;i++){
+            hours.push(i+'时');
         }
-        let pickerData = [years, months, days, ['am', 'pm'], hours, minutes];
+
+        for(let i=0;i<61;i++){
+            minutes.push(i+'分');
+        }
+        let pickerData = [years, months, days, hours, minutes];
         let date = new Date();
         let selectedValue = [
             [date.getFullYear()],
@@ -154,6 +161,14 @@ export default class PickerTest extends Component {
             pickerData,
             selectedValue,
             pickerTitleText: 'Select Date and Time',
+            pickerConfirmBtnColor:[0,170,238,1],
+            pickerCancelBtnColor:[58,58,58,1],
+            pickerTitleColor:[141,141,141,1],
+            pickerBg:[255,255,255,1],
+            pickerToolBarBg:[255,255,255,1],
+            pickerToolBarFontSize:14,
+            pickerFontSize:16,
+            pickerFontColor:[0,170,238,1],
             wheelFlex: [2, 1, 1, 2, 1, 1],
             onPickerConfirm: pickedValue => {
                 console.log('area', pickedValue);
@@ -263,6 +278,7 @@ export default class PickerTest extends Component {
                 </TouchableOpacity>;
                 break;
         }
+
 
 
         return (

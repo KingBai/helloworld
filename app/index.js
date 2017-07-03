@@ -71,7 +71,6 @@ import NavigationManager from './NavigationManager';
 
  }
 
-
  render() {
      let tabShow = this.state.showTab?'':{height: 0, overflow: 'hidden' };
      let tabShow2 = this.state.showTab?{}:{ paddingBottom: 0 };
@@ -128,6 +127,7 @@ export default Nav = StackNavigator(
                             animated={true}
                         />
                         <Text style={{textAlign:'center',fontSize:16,color:'#fff',marginTop:20}}>市场化交易测算</Text>
+
                     </View>
                 )
             })

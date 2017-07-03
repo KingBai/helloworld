@@ -4,9 +4,9 @@
  * @flow
  */
 
-import React from 'react';
+import React,{Component} from 'react';
 import {AppRegistry} from 'react-native';
 import Index from './app/index';
-import PanelResponder from './app/PanelResponder';
+import App from './app';
 
 AppRegistry.registerComponent('helloworld', () => Index);
